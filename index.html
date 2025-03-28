@@ -9,10 +9,19 @@
 <body>
     <div class="container">
         <h1>Number Guessing Game</h1>
-        <p>Guess a number between 1 and 100.</p>
+        <p>Select difficulty:</p>
+        <input type="radio" id="easy" name="difficulty" value="10">
+        <label for="easy">Easy (1-10)</label>
+        <input type="radio" id="medium" name="difficulty" value="100" checked>
+        <label for="medium">Medium (1-100)</label>
+        <input type="radio" id="hard" name="difficulty" value="1000">
+        <label for="hard">Hard (1-1000)</label>
+        <p id="bestScore">Best Score for 100: --</p>
+        <p>Guess a number between 1 and <span id="maxNumber">100</span>.</p>
         <input type="number" id="guessInput" placeholder="Enter your guess">
         <button id="guessButton">Guess</button>
         <p id="message"></p>
+        <button id="playAgainButton" style="display: none;">Play Again</button>
     </div>
     <script src="script.js"></script>
 </body>
