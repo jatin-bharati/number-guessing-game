@@ -8,13 +8,13 @@
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
     color: #333;
 }
 
 /* Header */
 header {
-    background-color: #2c3e50;
+    background-color: #ff6f61;
     color: white;
     text-align: center;
     padding: 1rem;
@@ -39,7 +39,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #3498db;
+    color: #ffe066;
 }
 
 /* Main Content */
@@ -47,13 +47,13 @@ nav a:hover {
     max-width: 800px;
     margin: 2rem auto;
     padding: 1.5rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
-    color: #2c3e50;
+    color: #ff6f61;
     margin-bottom: 1rem;
 }
 
@@ -78,6 +78,7 @@ p {
 
 .radio-group label {
     font-size: 1.1rem;
+    color: #e67e22;
 }
 
 /* Guess Area */
@@ -89,37 +90,88 @@ p {
 }
 
 #guessInput {
-    padding: 0.5rem;
+    padding: 0.6rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 150px;
+    border: 2px solid #ffcc80;
+    border-radius: 6px;
+    width: 160px;
+    background-color: #fff3e6;
 }
 
 button {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.2rem;
     font-size: 1rem;
-    background-color: #3498db;
-    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: transform 0.2s, background-color 0.3s;
 }
 
-button:hover {
-    background-color: #2980b9;
+#guessButton {
+    background-color: #6ab04c;
+    color: white;
+}
+
+#guessButton:hover {
+    background-color: #5d9b43;
+    transform: scale(1.05);
+}
+
+#playAgainButton {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#playAgainButton:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
 }
 
 /* Messages and Scores */
 #message {
     font-weight: bold;
-    color: #e74c3c;
+    color: #d35400;
     min-height: 1.5rem;
 }
 
 #bestScore {
     font-style: italic;
+    color: #8e44ad;
+}
+
+/* Balloon Animation */
+.balloon-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.balloon {
+    position: absolute;
+    width: 50px;
+    height: 70px;
+    background: radial-gradient(circle, #ffcc00 20%, #ff6f61 80%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: balloonBlast 2s ease-out forwards;
+}
+
+@keyframes balloonBlast {
+    0% {
+        opacity: 1;
+        transform: translateY(100vh) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(50vh) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20vh) translateX(calc(50vw - 50%)) scale(1.2);
+    }
 }
 
 /* How to Play and Features */
@@ -132,7 +184,7 @@ ol, ul {
 footer {
     text-align: center;
     padding: 1rem;
-    background-color: #2c3e50;
+    background-color: #ff6f61;
     color: white;
     position: relative;
     bottom: 0;
@@ -140,7 +192,7 @@ footer {
 }
 
 footer a {
-    color: #3498db;
+    color: #ffe066;
     text-decoration: none;
 }
 
