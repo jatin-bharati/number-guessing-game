@@ -140,6 +140,52 @@ button {
     color: #8e44ad;
 }
 
+/* Too High/Too Low Hints */
+.hint-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 500;
+}
+
+.hint-arrow {
+    width: 0;
+    height: 0;
+    position: absolute;
+    animation: hintFade 1s ease-out forwards;
+}
+
+.too-high {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 20px solid #e74c3c;
+    animation: moveUp 1s ease-out forwards;
+}
+
+.too-low {
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 20px solid #3498db;
+    animation: moveDown 1s ease-out forwards;
+}
+
+@keyframes moveUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-50px); }
+}
+
+@keyframes moveDown {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(50px); }
+}
+
+@keyframes hintFade {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
 /* Balloon Animation */
 .balloon-container {
     position: fixed;
@@ -161,18 +207,9 @@ button {
 }
 
 @keyframes balloonBlast {
-    0% {
-        opacity: 1;
-        transform: translateY(100vh) scale(0.5);
-    }
-    50% {
-        opacity: 1;
-        transform: translateY(50vh) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-20vh) translateX(calc(50vw - 50%)) scale(1.2);
-    }
+    0% { opacity: 1; transform: translateY(100vh) scale(0.5); }
+    50% { opacity: 1; transform: translateY(50vh) scale(1); }
+    100% { opacity: 0; transform: translateY(-20vh) translateX(calc(50vw - 50%)) scale(1.2); }
 }
 
 /* Glitter Animation */
@@ -196,18 +233,9 @@ button {
 }
 
 @keyframes glitterSparkle {
-    0% {
-        opacity: 1;
-        transform: translateY(0) scale(0.5);
-    }
-    50% {
-        opacity: 0.8;
-        transform: translateY(-20vh) scale(1.2);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-40vh) translateX(calc(50vw - 50%)) scale(0.8);
-    }
+    0% { opacity: 1; transform: translateY(0) scale(0.5); }
+    50% { opacity: 0.8; transform: translateY(-20vh) scale(1.2); }
+    100% { opacity: 0; transform: translateY(-40vh) translateX(calc(50vw - 50%)) scale(0.8); }
 }
 
 /* How to Play and Features */
