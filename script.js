@@ -2,9 +2,11 @@ let secretNumber;
 let attempts = 0;
 let bestScore = localStorage.getItem('bestScore') || '--';
 
+// Initialize the game
 document.getElementById('bestScore').textContent = `Best Score for 100: ${bestScore}`;
 updateMaxNumber();
 
+// Update max number when difficulty changes
 document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
     radio.addEventListener('change', () => {
         updateMaxNumber();
@@ -12,6 +14,7 @@ document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
     });
 });
 
+// Add event listeners for buttons
 document.getElementById('guessButton').addEventListener('click', checkGuess);
 document.getElementById('playAgainButton').addEventListener('click', resetGame);
 
@@ -25,14 +28,11 @@ function resetGame() {
     const max = parseInt(document.getElementById('maxNumber').textContent);
     secretNumber = Math.floor(Math.random() * max) + 1;
     attempts = 0;
-    document.getElementById('message').textContent = '';
-    document.getElementById('guessInput').value = '';
-    document.getElementById('guessButton').style.display = 'inline-block';
-    document.getElementById('playAgainButton').style.display = 'none';
-    document.getElementById('balloon-container').style.display = 'none';
-    document.getElementById('glitter-container').style.display = 'none';
-    document.getElementById('too-high-container').style.display = 'none';
-    document.getElementById('too-low-container').style.display = 'none';
+    document.getElementById('message').textContent = ''; // Clear message
+    document.getElementById('guessInput').value = '';   // Clear input
+    document.getElementById('guessButton').style.display = 'inline-block'; // Show Guess button
+    document.getElementById('playAgainButton').style.display = 'none';     // Hide Play Again button
+    document.getElementById('balloon-container').style.display = 'none';  // Hide balloons
 }
 
 function checkGuess() {
@@ -40,54 +40,24 @@ function checkGuess() {
     const max = parseInt(document.getElementById('maxNumber').textContent);
     attempts++;
 
+    const messageElement = document.getElementById('message');
     if (isNaN(guess) || guess < 1 || guess > max) {
-        document.getElementById('message').textContent = `Please enter a number between 1 and ${max}!`;
+        messageElement.textContent = `Please enter a number between 1 and ${max}!`;
     } else if (guess < secretNumber) {
-        document.getElementById('message').textContent = 'Too low! Try again.';
-        triggerTooLow();
+        messageElement.textContent = 'Hint: Too low! Try a higher number.';
     } else if (guess > secretNumber) {
-        document.getElementById('message').textContent = 'Too high! Try again.';
-        triggerTooHigh();
+        messageElement.textContent = 'Hint: Too high! Try a lower number.';
     } else {
-        document.getElementById('message').textContent = `You got it in ${attempts} attempts!`;
-        document.getElementById('guessButton').style.display = 'none';
-        document.getElementById('playAgainButton').style.display = 'inline-block';
+        messageElement.textContent = `You got it in ${attempts} attempts!`;
+        document.getElementById('guessButton').style.display = 'none';       // Hide Guess button
+        document.getElementById('playAgainButton').style.display = 'inline-block'; // Show Play Again button
         if (max === 100 && (bestScore === '--' || attempts < bestScore)) {
             bestScore = attempts;
             localStorage.setItem('bestScore', bestScore);
             document.getElementById('bestScore').textContent = `Best Score for 100: ${bestScore}`;
         }
-        triggerCelebration();
+        triggerBalloonBlast();
     }
-}
-
-function triggerTooHigh() {
-    const container = document.getElementById('too-high-container');
-    container.style.display = 'block';
-    const arrow = document.createElement('div');
-    arrow.className = 'hint-arrow too-high';
-    container.appendChild(arrow);
-    setTimeout(() => {
-        arrow.remove();
-        container.style.display = 'none';
-    }, 1000);
-}
-
-function triggerTooLow() {
-    const container = document.getElementById('too-low-container');
-    container.style.display = 'block';
-    const arrow = document.createElement('div');
-    arrow.className = 'hint-arrow too-low';
-    container.appendChild(arrow);
-    setTimeout(() => {
-        arrow.remove();
-        container.style.display = 'none';
-    }, 1000);
-}
-
-function triggerCelebration() {
-    triggerBalloonBlast();
-    triggerGlitterSparkle();
 }
 
 function triggerBalloonBlast() {
@@ -102,19 +72,4 @@ function triggerBalloonBlast() {
         setTimeout(() => balloon.remove(), 2000);
     }
     setTimeout(() => container.style.display = 'none', 2000);
-}
-
-function triggerGlitterSparkle() {
-    const container = document.getElementById('glitter-container');
-    container.style.display = 'block';
-    for (let i = 0; i < 20; i++) {
-        const glitter = document.createElement('div');
-        glitter.className = 'glitter';
-        glitter.style.left = `${Math.random() * 100}vw`;
-        glitter.style.top = `${Math.random() * 100}vh`;
-        glitter.style.animationDelay = `${Math.random() * 0.3}s`;
-        container.appendChild(glitter);
-        setTimeout(() => glitter.remove(), 1500);
-    }
-    setTimeout(() => container.style.display = 'none', 1500);
 }
