@@ -1,85 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Play Guess The Lucky Number online! Pick Easy (1-10), Medium (1-100), or Hard (1-1000) and test your luck in this free game.">
-    <meta name="keywords" content="guess the lucky number, number guessing game, online number game, free luck game, easy medium hard guessing">
-    <meta name="author" content="Guess The Lucky Number Team">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Guess The Lucky Number - Free Online Game">
-    <meta property="og:description" content="Challenge yourself with Guess The Lucky Number! Choose your difficulty and guess the lucky number to win. Play free now!">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://guesstheluckynumber.netlify.app">
-    <meta property="og:image" content="https://guesstheluckynumber.netlify.app/images/lucky-number-game-preview.jpg">
-    <title>Guess The Lucky Number - Free Online Number Guessing Game</title>
-    <link rel="canonical" href="https://guesstheluckynumber.netlify.app">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9412853157326363" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Guess The Lucky Number</h1>
-        <nav>
-            <ul>
-                <li><a href="#game">Play Now</a></li>
-                <li><a href="#how-to-play">How to Play</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="game" class="container">
-            <h2>Play Guess The Lucky Number</h2>
-            <p>Test your luck and guess the secret number!</p>
-            <div class="difficulty-select">
-                <p>Select difficulty:</p>
-                <div class="radio-group">
-                    <input type="radio" id="easy" name="difficulty" value="10">
-                    <label for="easy">Easy (1-10)</label>
-                    <input type="radio" id="medium" name="difficulty" value="100" checked>
-                    <label for="medium">Medium (1-100)</label>
-                    <input type="radio" id="hard" name="difficulty" value="1000">
-                    <label for="hard">Hard (1-1000)</label>
-                </div>
-            </div>
-            <p id="bestScore">Best Score for 100: --</p>
-            <p>Guess a number between 1 and <span id="maxNumber">100</span>.</p>
-            <div class="guess-area">
-                <input type="number" id="guessInput" placeholder="Enter your guess" aria-label="Enter your lucky number guess">
-                <button id="guessButton">Guess</button>
-            </div>
-            <p id="message"></p>
-            <button id="playAgainButton" style="display: none;">Play Again</button>
-            <div id="balloon-container" class="balloon-container" style="display: none;"></div>
-        </section>
-
-        <section id="how-to-play" class="container">
-            <h2>How to Play</h2>
-            <ol>
-                <li>Select a difficulty: Easy (1-10), Medium (1-100), or Hard (1-1000).</li>
-                <li>Enter your guess and submit.</li>
-                <li>Use hints to find the lucky number and watch balloons blast when you win!</li>
-            </ol>
-        </section>
-
-        <section id="features" class="container">
-            <h2>Why Play?</h2>
-            <ul>
-                <li>Three exciting difficulty levels</li>
-                <li>Track your best score for bragging rights</li>
-                <li>Fun balloon blast when you guess right</li>
-                <li>Free and optimized for all devices</li>
-            </ul>
-        </section>
-    </main>
-
-    <footer>
-        <p>© 2025 Guess The Lucky Number. All rights reserved.</p>
-        <p><a href="/sitemap.xml">Sitemap</a> | <a href="#privacy">Privacy Policy</a></p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+<section id="game" class="container">
+    <h2>Play Guess The Lucky Number</h2>
+    <p>Test your luck and guess the secret number!</p>
+    <div class="difficulty-select">
+        <p>Select difficulty:</p>
+        <div class="radio-group">
+            <input type="radio" id="easy" name="difficulty" value="10">
+            <label for="easy">Easy (1-10)</label>
+            <input type="radio" id="medium" name="difficulty" value="100" checked>
+            <label for="medium">Medium (1-100)</label>
+            <input type="radio" id="hard" name="difficulty" value="1000">
+            <label for="hard">Hard (1-1000)</label>
+        </div>
+    </div>
+    <p id="bestScore">Best Score for 100: --</p>
+    <p>Guess a number between 1 and <span id="maxNumber">100</span>.</p>
+    <div class="guess-area">
+        <input type="number" id="guessInput" placeholder="Enter your guess" aria-label="Enter your lucky number guess">
+        <button id="guessButton">Guess</button>
+    </div>
+    <p id="message"></p>
+    <button id="playAgainButton" style="display: none;">Play Again</button>
+    <div id="balloon-container" class="balloon-container" style="display: none;"></div>
+    <div id="glitter-container" class="glitter-container" style="display: none;"></div>
+</section>
