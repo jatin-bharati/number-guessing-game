@@ -1,295 +1,75 @@
-/* Reset default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+let secretNumber;
+let attempts = 0;
+let bestScore = localStorage.getItem('bestScore') || '--';
+
+// Initialize the game
+document.getElementById('bestScore').textContent = `Best Score for 100: ${bestScore}`;
+updateMaxNumber();
+
+// Update max number when difficulty changes
+document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        updateMaxNumber();
+        resetGame();
+    });
+});
+
+// Add event listeners for buttons
+document.getElementById('guessButton').addEventListener('click', checkGuess);
+document.getElementById('playAgainButton').addEventListener('click', resetGame);
+
+function updateMaxNumber() {
+    const difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+    document.getElementById('maxNumber').textContent = difficulty;
+    resetGame();
 }
 
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-    color: #333;
+function resetGame() {
+    const max = parseInt(document.getElementById('maxNumber').textContent);
+    secretNumber = Math.floor(Math.random() * max) + 1;
+    attempts = 0;
+    document.getElementById('message').textContent = ''; // Clear message
+    document.getElementById('guessInput').value = '';   // Clear input
+    document.getElementById('guessButton').style.display = 'inline-block'; // Show Guess button
+    document.getElementById('playAgainButton').style.display = 'none';     // Hide Play Again button
+    document.getElementById('balloon-container').style.display = 'none';  // Hide balloons
 }
 
-/* Header */
-header {
-    background-color: #ff6f61;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-}
+function checkGuess() {
+    const guess = parseInt(document.getElementById('guessInput').value);
+    const max = parseInt(document.getElementById('maxNumber').textContent);
+    attempts++;
 
-header h1 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-nav a:hover {
-    color: #ffe066;
-}
-
-/* Main Content */
-.container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    position: relative;
-}
-
-h2 {
-    color: #ff6f61;
-    margin-bottom: 1rem;
-}
-
-p {
-    margin-bottom: 1rem;
-}
-
-/* Difficulty Selection */
-.difficulty-select {
-    margin: 1rem 0;
-}
-
-.radio-group {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.radio-group input[type="radio"] {
-    margin-right: 0.3rem;
-}
-
-.radio-group label {
-    font-size: 1.1rem;
-    color: #e67e22;
-}
-
-/* Guess Area */
-.guess-area {
-    display: flex;
-    gap: 1rem;
-    margin: 1rem 0;
-    flex-wrap: wrap;
-}
-
-#guessInput {
-    padding: 0.6rem;
-    font-size: 1rem;
-    border: 2px solid #ffcc80;
-    border-radius: 6px;
-    width: 160px;
-    background-color: #fff3e6;
-}
-
-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.3s;
-}
-
-#guessButton {
-    background-color: #6ab04c;
-    color: white;
-}
-
-#guessButton:hover {
-    background-color: #5d9b43;
-    transform: scale(1.05);
-}
-
-#playAgainButton {
-    background-color: #e74c3c;
-    color: white;
-}
-
-#playAgainButton:hover {
-    background-color: #c0392b;
-    transform: scale(1.05);
-}
-
-/* Messages and Scores */
-#message {
-    font-weight: bold;
-    color: #d35400;
-    min-height: 1.5rem;
-}
-
-#bestScore {
-    font-style: italic;
-    color: #8e44ad;
-}
-
-/* Too High/Too Low Hints */
-.hint-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 500;
-}
-
-.hint-arrow {
-    width: 0;
-    height: 0;
-    position: absolute;
-    animation: hintFade 1s ease-out forwards;
-}
-
-.too-high {
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 20px solid #e74c3c;
-    animation: moveUp 1s ease-out forwards;
-}
-
-.too-low {
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 20px solid #3498db;
-    animation: moveDown 1s ease-out forwards;
-}
-
-@keyframes moveUp {
-    0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-50px); }
-}
-
-@keyframes moveDown {
-    0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(50px); }
-}
-
-@keyframes hintFade {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-/* Balloon Animation */
-.balloon-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-.balloon {
-    position: absolute;
-    width: 50px;
-    height: 70px;
-    background: radial-gradient(circle, #ffcc00 20%, #ff6f61 80%);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    animation: balloonBlast 2s ease-out forwards;
-}
-
-@keyframes balloonBlast {
-    0% { opacity: 1; transform: translateY(100vh) scale(0.5); }
-    50% { opacity: 1; transform: translateY(50vh) scale(1); }
-    100% { opacity: 0; transform: translateY(-20vh) translateX(calc(50vw - 50%)) scale(1.2); }
-}
-
-/* Glitter Animation */
-.glitter-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1000;
-}
-
-.glitter {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: radial-gradient(circle, #ffe066, transparent);
-    border-radius: 50%;
-    animation: glitterSparkle 1.5s ease-out forwards;
-}
-
-@keyframes glitterSparkle {
-    0% { opacity: 1; transform: translateY(0) scale(0.5); }
-    50% { opacity: 0.8; transform: translateY(-20vh) scale(1.2); }
-    100% { opacity: 0; transform: translateY(-40vh) translateX(calc(50vw - 50%)) scale(0.8); }
-}
-
-/* How to Play and Features */
-ol, ul {
-    margin-left: 2rem;
-    margin-bottom: 1rem;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #ff6f61;
-    color: white;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-}
-
-footer a {
-    color: #ffe066;
-    text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .container {
-        margin: 1rem;
-        padding: 1rem;
+    const messageElement = document.getElementById('message');
+    if (isNaN(guess) || guess < 1 || guess > max) {
+        messageElement.textContent = `Please enter a number between 1 and ${max}!`;
+    } else if (guess < secretNumber) {
+        messageElement.textContent = 'Too low! Try again.';
+    } else if (guess > secretNumber) {
+        messageElement.textContent = 'Too high! Try again.';
+    } else {
+        messageElement.textContent = `You got it in ${attempts} attempts!`;
+        document.getElementById('guessButton').style.display = 'none';       // Hide Guess button
+        document.getElementById('playAgainButton').style.display = 'inline-block'; // Show Play Again button
+        if (max === 100 && (bestScore === '--' || attempts < bestScore)) {
+            bestScore = attempts;
+            localStorage.setItem('bestScore', bestScore);
+            document.getElementById('bestScore').textContent = `Best Score for 100: ${bestScore}`;
+        }
+        triggerBalloonBlast();
     }
+}
 
-    header h1 {
-        font-size: 1.5rem;
+function triggerBalloonBlast() {
+    const container = document.getElementById('balloon-container');
+    container.style.display = 'block';
+    for (let i = 0; i < 10; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.style.left = `${Math.random() * 100}vw`;
+        balloon.style.animationDelay = `${Math.random() * 0.5}s`;
+        container.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 2000);
     }
-
-    nav ul {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .radio-group {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .guess-area {
-        flex-direction: column;
-    }
-
-    #guessInput {
-        width: 100%;
-    }
+    setTimeout(() => container.style.display = 'none', 2000);
 }
