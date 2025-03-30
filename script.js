@@ -31,6 +31,8 @@ function resetGame() {
     document.getElementById('playAgainButton').style.display = 'none';
     document.getElementById('balloon-container').style.display = 'none';
     document.getElementById('glitter-container').style.display = 'none';
+    document.getElementById('too-high-container').style.display = 'none';
+    document.getElementById('too-low-container').style.display = 'none';
 }
 
 function checkGuess() {
@@ -42,8 +44,10 @@ function checkGuess() {
         document.getElementById('message').textContent = `Please enter a number between 1 and ${max}!`;
     } else if (guess < secretNumber) {
         document.getElementById('message').textContent = 'Too low! Try again.';
+        triggerTooLow();
     } else if (guess > secretNumber) {
         document.getElementById('message').textContent = 'Too high! Try again.';
+        triggerTooHigh();
     } else {
         document.getElementById('message').textContent = `You got it in ${attempts} attempts!`;
         document.getElementById('guessButton').style.display = 'none';
@@ -55,6 +59,30 @@ function checkGuess() {
         }
         triggerCelebration();
     }
+}
+
+function triggerTooHigh() {
+    const container = document.getElementById('too-high-container');
+    container.style.display = 'block';
+    const arrow = document.createElement('div');
+    arrow.className = 'hint-arrow too-high';
+    container.appendChild(arrow);
+    setTimeout(() => {
+        arrow.remove();
+        container.style.display = 'none';
+    }, 1000);
+}
+
+function triggerTooLow() {
+    const container = document.getElementById('too-low-container');
+    container.style.display = 'block';
+    const arrow = document.createElement('div');
+    arrow.className = 'hint-arrow too-low';
+    container.appendChild(arrow);
+    setTimeout(() => {
+        arrow.remove();
+        container.style.display = 'none';
+    }, 1000);
 }
 
 function triggerCelebration() {
