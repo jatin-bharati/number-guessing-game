@@ -28,7 +28,9 @@ function resetGame() {
     const max = parseInt(document.getElementById('maxNumber').textContent);
     secretNumber = Math.floor(Math.random() * max) + 1;
     attempts = 0;
-    document.getElementById('message').textContent = ''; // Clear message
+    const messageElement = document.getElementById('message');
+    messageElement.textContent = ''; // Clear message
+    messageElement.classList.remove('correct'); // Remove green theme
     document.getElementById('guessInput').value = '';   // Clear input
     document.getElementById('guessButton').style.display = 'inline-block'; // Show Guess button
     document.getElementById('playAgainButton').style.display = 'none';     // Hide Play Again button
@@ -41,10 +43,11 @@ function checkGuess() {
     const max = parseInt(document.getElementById('maxNumber').textContent);
     const messageElement = document.getElementById('message');
 
-    // Debugging: Log to ensure function is running
-    console.log(`Guess: ${guess}, Secret: ${secretNumber}, Max: ${max}`);
+    console.log(`Guess: ${guess}, Secret: ${secretNumber}, Max: ${max}`); // Debugging
 
     attempts++;
+
+    messageElement.classList.remove('correct'); // Reset to default style
 
     if (isNaN(guess) || guess < 1 || guess > max) {
         messageElement.textContent = `Please enter a number between 1 and ${max}!`;
@@ -54,6 +57,7 @@ function checkGuess() {
         messageElement.textContent = 'Hint: Too high! Try a lower number.';
     } else {
         messageElement.textContent = `You got it in ${attempts} attempts!`;
+        messageElement.classList.add('correct'); // Apply green theme
         document.getElementById('guessButton').style.display = 'none';       // Hide Guess button
         document.getElementById('playAgainButton').style.display = 'inline-block'; // Show Play Again button
         if (max === 100 && (bestScore === '--' || attempts < bestScore)) {
