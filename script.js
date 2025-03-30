@@ -30,6 +30,7 @@ function resetGame() {
     document.getElementById('guessButton').style.display = 'inline-block';
     document.getElementById('playAgainButton').style.display = 'none';
     document.getElementById('balloon-container').style.display = 'none';
+    document.getElementById('glitter-container').style.display = 'none';
 }
 
 function checkGuess() {
@@ -52,8 +53,13 @@ function checkGuess() {
             localStorage.setItem('bestScore', bestScore);
             document.getElementById('bestScore').textContent = `Best Score for 100: ${bestScore}`;
         }
-        triggerBalloonBlast();
+        triggerCelebration();
     }
+}
+
+function triggerCelebration() {
+    triggerBalloonBlast();
+    triggerGlitterSparkle();
 }
 
 function triggerBalloonBlast() {
@@ -68,4 +74,19 @@ function triggerBalloonBlast() {
         setTimeout(() => balloon.remove(), 2000);
     }
     setTimeout(() => container.style.display = 'none', 2000);
+}
+
+function triggerGlitterSparkle() {
+    const container = document.getElementById('glitter-container');
+    container.style.display = 'block';
+    for (let i = 0; i < 20; i++) {
+        const glitter = document.createElement('div');
+        glitter.className = 'glitter';
+        glitter.style.left = `${Math.random() * 100}vw`;
+        glitter.style.top = `${Math.random() * 100}vh`;
+        glitter.style.animationDelay = `${Math.random() * 0.3}s`;
+        container.appendChild(glitter);
+        setTimeout(() => glitter.remove(), 1500);
+    }
+    setTimeout(() => container.style.display = 'none', 1500);
 }
