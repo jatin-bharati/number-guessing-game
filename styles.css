@@ -130,14 +130,20 @@ button {
 /* Messages and Scores */
 #message {
     font-weight: bold;
-    color: #d35400;
+    color: #d35400; /* Default red/orange for hints */
     min-height: 1.5rem;
-    font-size: 1.2rem; /* Larger text for visibility */
-    text-align: center; /* Centered for clarity */
+    font-size: 1.2rem;
+    text-align: center;
     padding: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.8); /* Slight background for contrast */
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 4px;
-    margin-top: 1rem; /* Space above message */
+    margin-top: 1rem;
+    transition: color 0.3s, background-color 0.3s; /* Smooth transition */
+}
+
+#message.correct {
+    color: #2ecc71; /* Green for correct answer */
+    background-color: rgba(46, 204, 113, 0.2); /* Light green background */
 }
 
 #bestScore {
