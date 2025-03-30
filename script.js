@@ -36,11 +36,16 @@ function resetGame() {
 }
 
 function checkGuess() {
-    const guess = parseInt(document.getElementById('guessInput').value);
+    const guessInput = document.getElementById('guessInput');
+    const guess = parseInt(guessInput.value);
     const max = parseInt(document.getElementById('maxNumber').textContent);
+    const messageElement = document.getElementById('message');
+
+    // Debugging: Log to ensure function is running
+    console.log(`Guess: ${guess}, Secret: ${secretNumber}, Max: ${max}`);
+
     attempts++;
 
-    const messageElement = document.getElementById('message');
     if (isNaN(guess) || guess < 1 || guess > max) {
         messageElement.textContent = `Please enter a number between 1 and ${max}!`;
     } else if (guess < secretNumber) {
