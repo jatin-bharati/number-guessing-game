@@ -137,6 +137,7 @@ button {
     padding: 0.5rem;
     background-color: rgba(255, 255, 255, 0.8); /* Slight background for contrast */
     border-radius: 4px;
+    margin-top: 1rem; /* Space above message */
 }
 
 #bestScore {
