@@ -1,86 +1,71 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const guessInput = document.getElementById('guessInput');
-    const guessButton = document.getElementById('guessButton');
-    const message = document.getElementById('message');
-    const playAgainButton = document.getElementById('playAgainButton');
-    let attempts = 0;
-    let randomNumber;
-    let bestScores = {
-        10: Infinity,   // Easy
-        100: Infinity,  // Medium
-        1000: Infinity  // Hard
-    };
+let secretNumber;
+let attempts = 0;
+let bestScore = localStorage.getItem('bestScore') || '--';
 
-    // Get the current difficulty level
-    function getDifficulty() {
-        const selected = document.querySelector('input[name="difficulty"]:checked');
-        return parseInt(selected.value);
-    }
+document.getElementById('bestScore').textContent = `Best Score for 100: ${bestScore}`;
+updateMaxNumber();
 
-    // Generate a new random number based on the current difficulty
-    function generateRandomNumber() {
-        const maxNumber = getDifficulty();
-        randomNumber = Math.floor(Math.random() * maxNumber) + 1;
-    }
-
-    // Update the game info (max number and best score display)
-    function updateGameInfo() {
-        const currentDifficulty = getDifficulty();
-        document.getElementById('maxNumber').textContent = currentDifficulty;
-        const score = bestScores[currentDifficulty];
-        document.getElementById('bestScore').textContent = `Best Score for ${currentDifficulty}: ${score === Infinity ? '--' : score}`;
-    }
-
-    // Initial setup
-    generateRandomNumber();
-    updateGameInfo();
-
-    // When difficulty changes, start a new game
-    document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            updateGameInfo();
-            generateRandomNumber();
-            attempts = 0;
-            message.textContent = '';
-            playAgainButton.style.display = 'none';
-            guessInput.focus();
-        });
-    });
-
-    // Handle guess submission
-    guessButton.addEventListener('click', function() {
-        const userGuess = parseInt(guessInput.value);
-        attempts++;
-
-        if (userGuess === randomNumber) {
-            message.textContent = `Correct! You guessed it in ${attempts} attempts.`;
-            message.style.color = 'green';
-            playAgainButton.style.display = 'block';
-
-            const currentDifficulty = getDifficulty();
-            if (attempts < bestScores[currentDifficulty]) {
-                bestScores[currentDifficulty] = attempts;
-                updateGameInfo();
-            }
-        } else if (userGuess < randomNumber) {
-            message.textContent = 'Too low! Try again.';
-            message.style.color = 'red';
-        } else {
-            message.textContent = 'Too high! Try again.';
-            message.style.color = 'red';
-        }
-
-        guessInput.value = '';
-        guessInput.focus();
-    });
-
-    // Handle "Play Again" button click
-    playAgainButton.addEventListener('click', function() {
-        generateRandomNumber();
-        attempts = 0;
-        message.textContent = '';
-        playAgainButton.style.display = 'none';
-        guessInput.value = '';
-        guessInput.focus();
+document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        updateMaxNumber();
+        resetGame();
     });
 });
+
+document.getElementById('guessButton').addEventListener('click', checkGuess);
+document.getElementById('playAgainButton').addEventListener('click', resetGame);
+
+function updateMaxNumber() {
+    const difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+    document.getElementById('maxNumber').textContent = difficulty;
+    resetGame();
+}
+
+function resetGame() {
+    const max = parseInt(document.getElementById('maxNumber').textContent);
+    secretNumber = Math.floor(Math.random() * max) + 1;
+    attempts = 0;
+    document.getElementById('message').textContent = '';
+    document.getElementById('guessInput').value = '';
+    document.getElementById('guessButton').style.display = 'inline-block';
+    document.getElementById('playAgainButton').style.display = 'none';
+    document.getElementById('balloon-container').style.display = 'none';
+}
+
+function checkGuess() {
+    const guess = parseInt(document.getElementById('guessInput').value);
+    const max = parseInt(document.getElementById('maxNumber').textContent);
+    attempts++;
+
+    if (isNaN(guess) || guess < 1 || guess > max) {
+        document.getElementById('message').textContent = `Please enter a number between 1 and ${max}!`;
+    } else if (guess < secretNumber) {
+        document.getElementById('message').textContent = 'Too low! Try again.';
+    } else if (guess > secretNumber) {
+        document.getElementById('message').textContent = 'Too high! Try again.';
+    } else {
+        document.getElementById('message').textContent = `You got it in ${attempts} attempts!`;
+        document.getElementById('guessButton').style.display = 'none';
+        document.getElementById('playAgainButton').style.display = 'inline-block';
+        if (max === 100 && (bestScore === '--' || attempts < bestScore)) {
+            bestScore = attempts;
+            localStorage.setItem('bestScore', bestScore);
+            document.getElementById('bestScore').textContent = `Best Score for 100: ${bestScore}`;
+        }
+        triggerBalloonBlast();
+    }
+}
+
+function triggerBalloonBlast() {
+    const container = document.getElementById('balloon-container');
+    container.style.display = 'block';
+    for (let i = 0; i < 10; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.style.left = `${Math.random() * 100}vw`;
+        balloon.style.animationDelay = `${Math.random() * 0.5}s`;
+        container.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 2000);
+    }
+    setTimeout(() => container.style.display = 'none', 2000);
+}
