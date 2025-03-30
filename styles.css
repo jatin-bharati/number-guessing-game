@@ -50,6 +50,7 @@ nav a:hover {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
 h2 {
@@ -171,6 +172,41 @@ button {
     100% {
         opacity: 0;
         transform: translateY(-20vh) translateX(calc(50vw - 50%)) scale(1.2);
+    }
+}
+
+/* Glitter Animation */
+.glitter-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.glitter {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #ffe066, transparent);
+    border-radius: 50%;
+    animation: glitterSparkle 1.5s ease-out forwards;
+}
+
+@keyframes glitterSparkle {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translateY(-20vh) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-40vh) translateX(calc(50vw - 50%)) scale(0.8);
     }
 }
 
